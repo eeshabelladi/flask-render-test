@@ -1,12 +1,11 @@
-import asyncio
-from crawl4ai import AsyncWebCrawler
+from playwright.async_api import async_playwright
 
 async def fetch_data(url):
-    try:
-        async with AsyncWebCrawler(verbose=True) as crawler:
-            result = await crawler.arun(url=url)
-            return result.markdown
-    except Exception as e:
-        print(f"Error during fetch: {e}")
-        raise
+    async with async_playwright() as playwright:
+        browser = await playwright.chromium.launch(headless=True)
+        page = await browser.new_page()
+        await page.goto(url)
+        content = await page.content()
+        await browser.close()
+        return content
 
