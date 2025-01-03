@@ -1,6 +1,9 @@
 from flask import Flask, jsonify, request
 import asyncio
 from async_crawler import fetch_data
+import subprocess
+
+subprocess.run(["playwright", "install"])
 
 app = Flask(__name__)
 
